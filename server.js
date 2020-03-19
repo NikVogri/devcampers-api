@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 // Routers
-app.use("/api/v1", bootcampsRoutes);
+app.use("/api/v1/bootcamps", bootcampsRoutes);
 
 // ErrorHandler - Middleware
 app.use(errorHandler);
