@@ -6,6 +6,7 @@ const connectDatabase = require("./config/db");
 const errorHandler = require("./middleware/err-handler");
 // Route files
 const bootcampsRoutes = require("./routes/bootcamps");
+const coursesRoutes = require("./routes/courses");
 
 // Load env vars in development enviroment
 dotenv.config({
@@ -25,6 +26,7 @@ if (process.env.NODE_ENV === "development") {
 }
 // Routers
 app.use("/api/v1/bootcamps", bootcampsRoutes);
+app.use("/api/v1/courses", coursesRoutes);
 
 // ErrorHandler - Middleware
 app.use(errorHandler);
