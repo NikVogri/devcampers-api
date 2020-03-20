@@ -1,6 +1,7 @@
 const express = require("express");
 const bootCampController = require("../controllers/bootcampController");
-
+const advanceResults = require("../middleware/advanceResults");
+const Bootcamp = require("../models/Bootcamp");
 // include other resource routers
 const courseRouter = require("./courses");
 
@@ -10,7 +11,11 @@ const router = express.Router();
 router.use("/:bootcampId/courses", courseRouter);
 
 // Routes
-router.get("/", bootCampController.getBootcamps);
+router.get(
+  "/",
+  advanceResults(Bootcamp, "courses"),
+  bootCampController.getBootcamps
+);
 router.get("/:id", bootCampController.getBootcamp);
 router.get(
   "/radius/:zipcode/:distance",
