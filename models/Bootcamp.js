@@ -133,11 +133,6 @@ BootcampSchema.pre("save", async function(next) {
   next();
 });
 
-// // Calculate average cost of bootcamp
-// BootcampSchema.pre('save', function(next) {
-//   this.averageCost =
-// });
-
 // Cascade delete courses when a bootcamp is deleted
 BootcampSchema.pre("remove", async function(next) {
   await this.model("Course").deleteMany({ bootcamp: this._id });

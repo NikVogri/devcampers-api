@@ -2,6 +2,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const colors = require("colors");
+const path = require("path");
+const fileupload = require("express-fileupload");
 const connectDatabase = require("./config/db");
 const errorHandler = require("./middleware/err-handler");
 // Route files
@@ -14,6 +16,12 @@ dotenv.config({
 });
 
 const app = express();
+
+// File uploading
+app.use(fileupload());
+
+// Set static folder
+app.use(express.static(path.join(__dirname, "public")));
 
 // Middlewares
 app.use(express.json());
