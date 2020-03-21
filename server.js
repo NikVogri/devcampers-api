@@ -4,11 +4,14 @@ const morgan = require("morgan");
 const colors = require("colors");
 const path = require("path");
 const fileupload = require("express-fileupload");
+const cookieParser = require("cookie-parser");
 const connectDatabase = require("./config/db");
 const errorHandler = require("./middleware/err-handler");
+
 // Route files
 const bootcampsRoutes = require("./routes/bootcamps");
 const coursesRoutes = require("./routes/courses");
+const authRoutes = require("./routes/auth");
 
 // Load env vars in development enviroment
 dotenv.config({
@@ -17,14 +20,17 @@ dotenv.config({
 
 const app = express();
 
+// Body parser
+app.use(express.json());
+
+// Cookie parser
+app.use(cookieParser());
+
 // File uploading
 app.use(fileupload());
 
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")));
-
-// Middlewares
-app.use(express.json());
 
 // Connect to database
 connectDatabase();
@@ -35,6 +41,7 @@ if (process.env.NODE_ENV === "development") {
 // Routers
 app.use("/api/v1/bootcamps", bootcampsRoutes);
 app.use("/api/v1/courses", coursesRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 // ErrorHandler - Middleware
 app.use(errorHandler);
