@@ -14,8 +14,23 @@ router.get(
   coursesController.getAllCourses
 );
 router.get("/:id", coursesController.getSingleCourse);
-router.put("/:id", auth.protect, coursesController.updateCourse);
-router.delete("/:id", auth.protect, coursesController.deleteCourse);
-router.post("/", auth.protect, coursesController.addCourse);
+router.put(
+  "/:id",
+  auth.protect,
+  auth.authorize("publisher", "admin"),
+  coursesController.updateCourse
+);
+router.delete(
+  "/:id",
+  auth.protect,
+  auth.authorize("publisher", "admin"),
+  coursesController.deleteCourse
+);
+router.post(
+  "/",
+  auth.protect,
+  auth.authorize("publisher", "admin"),
+  coursesController.addCourse
+);
 
 module.exports = router;

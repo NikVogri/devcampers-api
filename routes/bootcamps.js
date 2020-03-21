@@ -24,9 +24,29 @@ router.get(
   "/radius/:zipcode/:distance",
   bootCampController.getBootcampsInRadius
 );
-router.post("/", auth.protect, bootCampController.createBootcamp);
-router.put("/:id", auth.protect, bootCampController.updateBootcamp);
-router.put("/:id/photo", auth.protect, bootCampController.bootcampPhotoUpload);
-router.delete("/:id", auth.protect, bootCampController.deleteBootcamp);
+router.post(
+  "/",
+  auth.protect,
+  auth.authorize("publisher", "admin"),
+  bootCampController.createBootcamp
+);
+router.put(
+  "/:id",
+  auth.protect,
+  auth.authorize("publisher", "admin"),
+  bootCampController.updateBootcamp
+);
+router.put(
+  "/:id/photo",
+  auth.protect,
+  auth.authorize("publisher", "admin"),
+  bootCampController.bootcampPhotoUpload
+);
+router.delete(
+  "/:id",
+  auth.protect,
+  auth.authorize("publisher", "admin"),
+  bootCampController.deleteBootcamp
+);
 
 module.exports = router;
