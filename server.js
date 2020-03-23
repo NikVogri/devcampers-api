@@ -12,7 +12,8 @@ const errorHandler = require("./middleware/err-handler");
 const bootcampsRoutes = require("./routes/bootcamps");
 const coursesRoutes = require("./routes/courses");
 const authRoutes = require("./routes/auth");
-
+const userRoutes = require("./routes/users");
+const reviewRoutes = require("./routes/reviews");
 // Load env vars in development enviroment
 dotenv.config({
   path: "./config/config.env"
@@ -42,6 +43,8 @@ if (process.env.NODE_ENV === "development") {
 app.use("/api/v1/bootcamps", bootcampsRoutes);
 app.use("/api/v1/courses", coursesRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/reviews", reviewRoutes);
 
 // ErrorHandler - Middleware
 app.use(errorHandler);
