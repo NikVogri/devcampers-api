@@ -7,6 +7,13 @@ const fileupload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const connectDatabase = require("./config/db");
 const errorHandler = require("./middleware/err-handler");
+// Protection libraries
+const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const hpp = require("hpp");
+const rateLimit = require("express-rate-limit");
+const cors = require("cors");
 
 // Route files
 const bootcampsRoutes = require("./routes/bootcamps");
@@ -20,6 +27,28 @@ dotenv.config({
 });
 
 const app = express();
+
+// Sanitize data
+app.use(mongoSanitize());
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 mins
+  max: 100
+});
+app.use(limiter);
+
+// Prevent http param pollution
+app.use(hpp());
+
+// Prevent XSS attacks (html embedded in inputs)
+app.use(xss());
+
+// Enable CORS
+app.use(cors());
+
+// Add helmet
+app.use(helmet());
 
 // Body parser
 app.use(express.json());
